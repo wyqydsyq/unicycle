@@ -1,0 +1,3 @@
+apps:
+  - script: ./build/server/index.js
+    name: boilerplate
