@@ -24,11 +24,6 @@ const devServer = {}
 
 if (process.env.NODE_ENV === 'development') {
   console.log('Develoment Mode: Enabling HMR...')
-  CommonConfig.module.rules[0].use[0].options.babelOptions.plugins.push(['cycle-hmr/xstream', {
-    include: ['**/src/**.js'],
-    exclude: ['**/src/main.js'],
-    testExportName: '^[A-Z]|default'
-  }])
 
   plugins.unshift(new webpack.HotModuleReplacementPlugin())
   entry.unshift('webpack-hot-middleware/client')
