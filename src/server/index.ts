@@ -9,7 +9,7 @@ import { makeServerHistoryDriver } from '@cycle/history'
 import { timeDriver } from '@cycle/time'
 import switchPath from 'switch-path'
 
-import ApiRoutes from './api/routes'
+import ApiRoutes from './routes'
 import ClientRoutes from '../client/routes'
 import Main from '../client/main'
 import Boilerplate from './boilerplate'

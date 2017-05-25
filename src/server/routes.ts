@@ -1,6 +1,6 @@
 import switchPath from 'switch-path'
 
-import Example from './example'
+import Example from './endpoints/example'
 
 export const Blacklist = {
   '/favicon.ico': null,
