@@ -13,12 +13,16 @@ require('offline-plugin/runtime').install()
 
 const { rerunner, restartable } = require('cycle-restart')
 
-// configure rerunner with desired drivers. Rerunner will automatically add Time
-const run = rerunner(setup, () => ({
+// define a function to generate a drivers object
+const getDrivers = () => ({
   DOM: restartable(makeDOMDriver('#main'), {pauseSinksWhileReplaying: false}),
   HTTP: restartable(makeHTTPDriver()),
-  History: makeHistoryDriver()
-}))
+  History: makeHistoryDriver(),
+  Time: timeDriver
+})
+
+// configure rerunner with desired drivers. Rerunner will automatically add Time
+const run = rerunner(setup, getDrivers)
 
 // run the app!
 run(Main)

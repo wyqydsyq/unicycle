@@ -14,7 +14,7 @@ export default function Home(sources) {
 
   const content$ = response$
     .map(res => {
-      return res.text
+      return `XHR Response: ${res.text}`
     })
     .map(text => div({class: classes(Styles.Hero)}, text))
 
