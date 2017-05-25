@@ -45,7 +45,7 @@ server.use(async (ctx, next) => new Promise((res, rej) => {
   const {path, value: Page} = switchPath(ctx.path, ClientRoutes)
   if (Page) {
 
-    // wrap the page DOM in the HTML boilerplate
+    // wrap the app's DOM sink with the HTML boilerplate
     run(sources => {
       return Boilerplate(Main(sources), ctx)
     }, {
@@ -60,11 +60,14 @@ server.use(async (ctx, next) => new Promise((res, rej) => {
       Time: timeDriver
     })
   } else {
+    next()
     return res(false)
   }
 }))
 
 server.listen(port)
 
-console.log(`Koa server started.`)
-console.log(`Listening on port:\n — ${port}`)
+console.log(`
+  Koa server started
+    — Port: ${port}
+`)

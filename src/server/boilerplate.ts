@@ -4,9 +4,8 @@ import { html, head, body, title, script, style, link, div, meta } from '@cycle/
 
 import { classes, Styles } from '../client/styles'
 
-export default function Boilerplate(sources, ctx) {
+export const Boilerplate = (sources, ctx) => {
   return {
-    // wrap app DOM in a boilerplate HTML document
     DOM: sources.DOM.take(1).map(innerHTML =>
       html([
         head([
@@ -42,3 +41,5 @@ export default function Boilerplate(sources, ctx) {
     Time: xs.empty()
   }
 }
+
+export default Boilerplate

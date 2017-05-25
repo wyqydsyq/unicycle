@@ -4,13 +4,18 @@ import { div } from '@cycle/dom'
 import { classes, Styles } from '../styles'
 import Menu from '../components/menu'
 
-export default function Home(sources) {
+export const Home = (sources) => {
   const request$ = xs.of({
     url: '/api/example',
     category: 'api'
   })
 
-  const response$ = sources.HTTP.select('api').map(res$ => res$.replaceError(err => console.log(err))).flatten()
+  const response$ = sources.HTTP
+    .select('api')
+    .map(res$ =>
+      res$.replaceError(e => console.error(e))
+    )
+    .flatten()
 
   const content$ = response$
     .map(res => {
@@ -28,3 +33,5 @@ export default function Home(sources) {
     HTTP: request$
   }
 }
+
+export default Home
