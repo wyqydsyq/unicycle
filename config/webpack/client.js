@@ -3,6 +3,8 @@ const path = require('path')
 const babelPlugins = []
 const OfflinePlugin = require('offline-plugin')
 const { CheckerPlugin } = require('awesome-typescript-loader')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const CommonConfig = require('./common')
 const publicPath = '/static/'
@@ -18,19 +20,32 @@ const plugins = [
     ServiceWorker: {
       publicPath: '/sw.js'
     }
-  })
+  }),
+  new FaviconsWebpackPlugin({
+    emitStats: true,
+    title: require('../../package.json').title || 'Unicycle',
+    logo: './public/favicon.png',
+    statsFilename: 'favicons.json'
+  }),
+  new CopyWebpackPlugin([
+    {
+      from: 'public/*',
+      to: 'static/'
+    }
+  ])
 ]
 const devServer = {}
 
 if (process.env.NODE_ENV === 'development') {
-  console.log('Develoment Mode: Enabling HMR...')
+  console.log('Development: Injecting HMR client into bundle...')
 
-  plugins.unshift(new webpack.HotModuleReplacementPlugin())
   entry.unshift('webpack-hot-middleware/client')
+  plugins.unshift(new webpack.HotModuleReplacementPlugin())
 
   devServer['hot'] = true
   devServer['noInfo'] = true
   devServer['publicPath'] = publicPath
+  devServer['stats'] = CommonConfig.stats
 }
 
 const ClientConfig = {
@@ -40,6 +55,7 @@ const ClientConfig = {
   devServer,
   devtool: 'source-map',
   context: path.join(process.cwd()),
+  stats: CommonConfig.stats,
   resolve: {
     extensions: CommonConfig.resolve.extensions,
     alias: {

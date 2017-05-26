@@ -19,6 +19,8 @@ const port = process.env.PORT || 8080
 
 // development mode
 if (process.env.NODE_ENV === 'development') {
+  console.log('Development: Mounting WDS and HMR middlewares...')
+
   const webpack = require('webpack')
   const ClientConfig = require('../../config/webpack/client.js')
   const compiler = webpack(ClientConfig)

@@ -13,6 +13,7 @@ const ServerConfig = {
   plugins,
   devtool: 'source-map',
   context: path.join(process.cwd()),
+  stats: CommonConfig.stats,
   resolve: CommonConfig.resolve,
   output: {
     path: buildPath,

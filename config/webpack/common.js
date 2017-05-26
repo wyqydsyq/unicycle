@@ -1,6 +1,17 @@
 const path = require('path')
 
 const CommonConfig = {
+  context: __dirname,
+  stats: {
+    modules: true,
+    assets: false,
+    cached: false,
+    colors: true,
+    depth: true,
+    errors: true,
+    errorDetals: true,
+    warnings: true
+  },
   resolve: {
     alias: {
       'README.md': path.join(process.cwd(), 'README.md')
@@ -61,10 +72,6 @@ const CommonConfig = {
       {
         test: /\.md$/,
         loader: 'html!markdown'
-      },
-      {
-        test: /\.less$|\.css$/,
-        loader: 'style!css?camelCase&minimize&discardDuplicates&-import&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less'
       }
     ]
   }
