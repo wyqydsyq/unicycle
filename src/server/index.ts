@@ -1,7 +1,12 @@
+// server dependencies
 import * as koa from 'koa'
 import * as send from 'koa-send'
 import * as serve from 'koa-static'
 import * as mount from 'koa-mount'
+import * as waterline from 'koa-waterline'
+import * as Disk from 'sails-disk'
+
+// client dependencies
 import { run } from '@cycle/run'
 import { makeHTTPDriver } from '@cycle/http'
 import { makeHTMLDriver } from '@cycle/html'
@@ -9,11 +14,14 @@ import { makeServerHistoryDriver } from '@cycle/history'
 import { timeDriver } from '@cycle/time'
 import switchPath from 'switch-path'
 
+// load the app, routes, boilerplate and models
 import ApiRoutes from './routes'
 import ClientRoutes from '../client/routes'
 import Main from '../client/main'
 import Boilerplate from './boilerplate'
+import Models from './models'
 
+// configure Koa
 const server = new koa()
 const port = process.env.PORT || 8080
 
@@ -33,7 +41,23 @@ if (process.env.NODE_ENV === 'development') {
 server.use(mount('/sw.js', (ctx) => send(ctx, 'build/static/sw.js', {})))
 server.use(mount('/static', serve('build/static')))
 
-// match any api routes
+// mount waterline middleware for API handlers
+server.use(waterline({
+  adapters: {
+    disk: Disk
+  },
+  connections: {
+    simple: {
+      adapter: 'disk'
+    }
+  },
+  defaults: {
+    migrate: (process.env.NODE_ENV === 'development') ? 'alter' : 'safe'
+  },
+  models: Models
+}))
+
+// match any api routes to their respective handler
 server.use(mount('/api', async (ctx, next) => {
   const {path, value: Handler} = switchPath(ctx.path, ApiRoutes)
   if (Handler) {
