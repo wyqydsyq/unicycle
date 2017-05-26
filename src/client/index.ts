@@ -3,7 +3,6 @@ import { makeHTTPDriver } from '@cycle/http'
 import { makeDOMDriver } from '@cycle/dom'
 import { makeHistoryDriver } from '@cycle/history'
 import { timeDriver } from '@cycle/time'
-import switchPath from 'switch-path'
 
 import ClientRoutes from './routes'
 import Main from './main'
@@ -17,7 +16,7 @@ const { rerunner, restartable } = require('cycle-restart')
 const getDrivers = () => ({
   DOM: restartable(makeDOMDriver('#main'), {pauseSinksWhileReplaying: false}),
   HTTP: restartable(makeHTTPDriver()),
-  History: makeHistoryDriver(),
+  History: restartable(makeHistoryDriver()),
   Time: timeDriver
 })
 
