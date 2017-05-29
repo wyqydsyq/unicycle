@@ -1,4 +1,4 @@
-import Example from './endpoints/example'
+import Users from './endpoints/users'
 
 export const Blacklist = {
   '/favicon.ico': null,
@@ -7,7 +7,10 @@ export const Blacklist = {
 }
 
 export const Routes = {
-  '/example': Example,
+  '/users': {
+    '/': Users(undefined),
+    '/:id': (id: string) => Users(id)
+  },
   ...Blacklist
 }
 

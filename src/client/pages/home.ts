@@ -6,7 +6,7 @@ import Menu from '../components/menu'
 
 export const Home = (sources) => {
   const request$ = xs.of({
-    url: '/api/example',
+    url: '/api/users',
     category: 'api'
   })
 
