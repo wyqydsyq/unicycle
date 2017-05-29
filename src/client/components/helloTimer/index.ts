@@ -1,4 +1,3 @@
-import xs from 'xstream'
 import { div } from '@cycle/dom'
 
 import { classes, Styles as GlobalStyles } from '../../styles'

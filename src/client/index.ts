@@ -4,7 +4,6 @@ import { makeDOMDriver } from '@cycle/dom'
 import { makeHistoryDriver } from '@cycle/history'
 import { timeDriver } from '@cycle/time'
 
-import ClientRoutes from './routes'
 import Main from './main'
 
 // register ServiceWorker

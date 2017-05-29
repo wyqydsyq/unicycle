@@ -1,5 +1,3 @@
-import switchPath from 'switch-path'
-
 import Example from './endpoints/example'
 
 export const Blacklist = {

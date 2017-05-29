@@ -1,5 +1,3 @@
-import switchPath from 'switch-path'
-
 import Home from './pages/home'
 import Timer from './pages/timer'
 import NotFound from './pages/notfound'

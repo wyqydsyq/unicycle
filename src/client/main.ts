@@ -1,6 +1,5 @@
 import xs from 'xstream'
 import switchPath from 'switch-path'
-import { div } from '@cycle/dom'
 
 import ClientRoutes from './routes'
 
@@ -8,7 +7,7 @@ export default function Main(sources) {
 
   // define routes
   const route$ = sources.History.map(route => {
-    const {path, value: Page} = switchPath(route.pathname, ClientRoutes)
+    const { value: Page } = switchPath(route.pathname, ClientRoutes)
     return Page(sources)
   })
 

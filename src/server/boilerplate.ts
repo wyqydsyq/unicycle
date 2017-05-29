@@ -3,7 +3,7 @@ import xs from 'xstream'
 import virtualize from 'snabbdom-virtualize/strings'
 import { JSDOM } from 'jsdom'
 import { htmlEncode } from 'js-htmlencode'
-import { html, head, body, title, script, style, link, div, meta } from '@cycle/dom'
+import { html, head, body, title, script, style, div, meta } from '@cycle/dom'
 
 import { classes, Styles } from '../client/styles'
 

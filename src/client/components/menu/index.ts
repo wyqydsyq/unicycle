@@ -1,6 +1,5 @@
 import xs from 'xstream'
 import { ul, li, a } from '@cycle/dom'
-import { style as css} from 'typestyle'
 
 import { classes } from '../../styles'
 import Styles from './styles'
