@@ -59,14 +59,13 @@ server.use(waterline({
 
 // match any api routes to their respective handler
 server.use(mount('/api', async (ctx: koa.context, next: Function) => {
-  console.log('CTX: ', ctx)
   const { value: Handler } = switchPath(ctx.path, ApiRoutes)
   if (Handler) {
     // call the handler with ctx and next, allowing it to behave like middleware
     await Handler(ctx, next)
+  } else {
+    next()
   }
-
-  next()
 }))
 
 // serve the app
@@ -87,10 +86,10 @@ server.use(async (ctx: koa.context, next: Function) => new Promise((res, rej) =>
       History: makeServerHistoryDriver({initialEntries: [ctx.path]}),
       Time: timeDriver
     })
+  } else {
+    next()
+    return res(false)
   }
-
-  next()
-  return res(false)
 }))
 
 server.listen(port)
