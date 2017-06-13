@@ -13,9 +13,10 @@ export const Home = (sources) => {
   const response$ = sources.HTTP
     .select('api')
     .map(res$ =>
-      res$.replaceError(e => console.error(e))
+      res$.replaceError(e => xs.of({ error: e.message }))
     )
     .flatten()
+    .startWith({ text: 'Nothing yet' })
 
   const content$ = response$
     .map(res => {
