@@ -1,5 +1,6 @@
 import xs from 'xstream'
 import { div } from '@cycle/dom'
+import * as Form from 'form-to-json'
 
 import { classes, Styles } from '../styles'
 
@@ -7,6 +8,10 @@ import Menu from '../components/menu'
 import User from '../components/user'
 
 export const Home = (sources) => {
+  const fetchUsers = {
+    url: '/api/users',
+    category: 'api:user'
+  }
 
   // map submits of createUser form to API POST requests
   const userData$ = sources.DOM
@@ -14,21 +19,18 @@ export const Home = (sources) => {
     .events('submit')
     .map(ev => {
       ev.preventDefault()
-      const data = new FormData(ev.target)
+      const data = Form(ev.target).toJson()
       return {
-        url: `/api/users/${data.get('id') || ''}`,
-        category: 'api',
+        url: `/api/users/${data.id || ''}`,
+        category: 'api:user',
         method: 'POST',
         send: data
       }
     })
-    .startWith({
-      url: '/api/users',
-      category: 'api'
-    })
+    .startWith(fetchUsers)
 
   const response$ = sources.HTTP
-    .select('api')
+    .select('api:user')
     .map(res$ =>
       res$.replaceError(e => xs.of({ error: e.message }))
     )
@@ -36,6 +38,9 @@ export const Home = (sources) => {
 
   // build a list of interactive user forms
   const userList$ = response$
+
+    // only use data from GET responses
+    .filter(res => res.req.method === 'GET')
 
     // map each userData object into a User component
     .map(res => res.body.map(user => User({ ...sources, user$: xs.of(user) }).DOM))
