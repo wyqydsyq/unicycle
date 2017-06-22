@@ -1,7 +1,6 @@
 import * as R from 'ramda'
 
 const update = (context, query = {}, data = {}) => new Promise((res, rej) => {
-  console.log('UPDATE: ', query, data)
   context._waterline
     .collections
     .users
