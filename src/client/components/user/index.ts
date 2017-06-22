@@ -24,6 +24,11 @@ export const User = (sources: Sources) => {
   return {
     DOM: values$.map(user =>
       form('.setUser', { key: user.id }, [
+        input({ attrs: {
+          type: 'hidden',
+          name: 'id',
+          value: user.id
+        } }),
         input({
           attrs: {
             name: 'name',
