@@ -3,6 +3,7 @@ import * as koa from 'koa'
 import * as send from 'koa-send'
 import * as serve from 'koa-static'
 import * as mount from 'koa-mount'
+import * as bodyParser from 'koa-bodyparser'
 import * as waterline from 'koa-waterline'
 import * as Disk from 'sails-disk'
 
@@ -41,7 +42,7 @@ if (process.env.NODE_ENV === 'development') {
 server.use(mount('/sw.js', (ctx: koa.context) => send(ctx, 'build/static/sw.js', {})))
 server.use(mount('/static', serve('build/static')))
 
-// mount waterline middleware for API handlers
+// use waterline middleware for API handlers
 server.use(waterline({
   adapters: {
     disk: Disk
@@ -56,6 +57,9 @@ server.use(waterline({
   },
   models: Models
 }))
+
+// use bodyParser so API endpoints can read POSTed data
+server.use(bodyParser())
 
 // match any api routes to their respective handler
 server.use(mount('/api', async (ctx: koa.context, next: Function) => {
