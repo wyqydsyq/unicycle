@@ -27,7 +27,10 @@ export default function Main(sources) {
       // client-side redirect to /home if path is /
       ((typeof window !== 'undefined' && window.location.pathname === '/')
         ? xs.of('/home')
-        : xs.empty()
+        : ((typeof window !== 'undefined')
+          ? xs.of(window.location.pathname)
+          : xs.empty()
+        )
       ), navigate$
     )
   }
