@@ -19,9 +19,9 @@ export const Home = (sources) => {
     .events('submit')
     .map(ev => {
       ev.preventDefault()
-      const data = Form(ev.target).toJson()
+      const { id, ...data } = Form(ev.target).toJson()
       return {
-        url: `/api/users/${data.id || ''}`,
+        url: `/api/users/${id || ''}`,
         category: 'api:user',
         method: 'POST',
         send: data
