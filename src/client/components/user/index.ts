@@ -12,31 +12,53 @@ export interface Sources {
   user$: UserData
 }
 
-export const User = (sources: Sources) => {
-  const data$ = sources.user$
-    .map(
-      (user: UserData) => ({
-        id: (user && user.id) ? user.id : 0,
-        name: (user && user.name) ? user.name : ''
-      })
-    )
+const intent = (sources) => ({
 
-  const input$ = sources.DOM
+  // recieve user data values
+  user$: sources.user$
+    .map((user: UserData) => ({
+      id: (user && user.id) ? user.id : 0,
+      name: (user && user.name) ? user.name : ''
+    })),
+
+  input$: sources.DOM
     .select('.setUser input')
-    .events('input')
+    .events('input'),
 
-  // current values = provided data with input values merged over top
-  const values$ = xs
-    .combine(data$, input$)
-    .map(([data, event]: [any, any]) => ({
-      ...data,
+  submitClick$: sources.DOM
+    .select('.setUser')
+    .events('submit')
+})
+
+const model = (sources) => ({
+  values$: xs
+    .combine(sources.user$, sources.input$)
+    .map(([userData, event]: [any, any]) => ({
+      ...userData,
       ...((event)
         ? { [event.target.name]: event.target.value }
         : {}
       )
-    }))
+    })),
 
+  submit$: sources.submitClick$
+    .map(ev => {
+      ev.preventDefault()
+      const { id, ...data } = Form(ev.target).toJson()
+      return {
+        url: `/api/users/${id || ''}`,
+        category: 'api:user',
+        method: 'POST',
+        send: data
+      }
+    })
+})
+
+export const User = (sources: Sources) => {
+  const events = intent(sources)
+  const { values$, submit$ } = model(events)
   return {
+    submit$,
     DOM: values$.map(user =>
       form('.setUser', { key: user.id }, [
         input({
@@ -54,20 +76,7 @@ export const User = (sources: Sources) => {
         }),
         button(['Save'])
       ])
-    ),
-    submit$: sources.DOM
-      .select('.setUser')
-      .events('submit')
-      .map(ev => {
-        ev.preventDefault()
-        const { id, ...data } = Form(ev.target).toJson()
-        return {
-          url: `/api/users/${id || ''}`,
-          category: 'api:user',
-          method: 'POST',
-          send: data
-        }
-      })
+    )
   }
 }
 
