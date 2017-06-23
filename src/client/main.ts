@@ -23,15 +23,6 @@ export default function Main(sources) {
   return {
     DOM: route$.map(Page => Page.DOM).flatten(),
     HTTP: route$.map(Page => Page.HTTP || xs.empty()).flatten(),
-    History: xs.merge(
-      // client-side redirect to /home if path is /
-      ((typeof window !== 'undefined' && window.location.pathname === '/')
-        ? xs.of('/home')
-        : ((typeof window !== 'undefined')
-          ? xs.of(window.location.pathname)
-          : xs.empty()
-        )
-      ), navigate$
-    )
+    History: navigate$
   }
 }

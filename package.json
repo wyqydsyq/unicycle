@@ -42,6 +42,7 @@
     "@cycle/history": "^6.2.0",
     "@cycle/html": "^1.1.0",
     "@cycle/http": "^13.3.0",
+    "@cycle/isolate": "^3.0.0",
     "@cycle/run": "^3.1.0",
     "@cycle/time": "^0.8.0",
     "ava": "^0.19.1",
