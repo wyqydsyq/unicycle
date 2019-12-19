@@ -1,3 +1,7 @@
+## **UNMAINTAINED***
+This repo hasn't been maintained and most of the packages will be out of date, I may be releasing an update/replacement in coming months. Feel free to fork/use this as a boilerplate, but keep in mind most of the webpack/babel/typescript config will need to be rewritten when upgrading to newer versions
+
+
 # Unicycle
 Unicycle is a [Cycle.js](http://cycle.js.org/) boilerplate for universal (aka isomorphic) progressive web-apps, preconfigured with [HMR](https://webpack.github.io/docs/hot-module-replacement.html) and ServiceWorker via Webpack.
 
