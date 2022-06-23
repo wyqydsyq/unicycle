@@ -50,7 +50,7 @@
     "cycle-restart": "^0.1.0",
     "favicons-webpack-plugin": "^0.0.7",
     "js-htmlencode": "^0.3.0",
-    "jsdom": "^11.0.0",
+    "jsdom": "^16.5.0",
     "koa": "^2",
     "koa-mount": "^3.0.0",
     "koa-send": "^4.1.0",
